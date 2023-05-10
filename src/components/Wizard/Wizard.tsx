@@ -1,9 +1,7 @@
-import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { WizardProps } from './Wizard.types';
 import { WizardProvider } from './WizardProvider';
-import { PageNotFound } from '../../pages/PageNotFound';
-import { WizardStep } from './WizardStep';
 
 export const Wizard: FC<React.PropsWithChildren<WizardProps>> = (props) => {
 	const navigate = useNavigate();

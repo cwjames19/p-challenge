@@ -1,8 +1,9 @@
 import { FC } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { MultiSelect, SelectProps, Option } from 'react-multi-select-component';
 import { ExteriorStepProps, SFExteriorWorkOption } from './ExteriorStep.types';
-import { WizardNav } from '../../../Wizard/WizardNav/WizardNav';
+import { WizardStepLayout } from '../../../Wizard/WizardStepLayout';
+import { SFWorkflowInput } from '../../../../api';
 
 export const SFExteriorWorkOptions: SFExteriorWorkOption[] = [
 	{ value: 'garage-door-replacement', label: 'Garage door replacement' },
@@ -13,8 +14,8 @@ export const SFExteriorWorkOptions: SFExteriorWorkOption[] = [
 ];
 
 export const ExteriorStep: FC<ExteriorStepProps> = (props) => {
-	const { step, formVariables } = props;
-	const { watch, control, setValue } = formVariables;
+	const { step } = props;
+	const { watch, control, setValue } = useFormContext<SFWorkflowInput>();
 
 	const exterior = watch('exterior') ?? [];
 	const sectionValid = exterior.length > 0;
@@ -24,28 +25,34 @@ export const ExteriorStep: FC<ExteriorStepProps> = (props) => {
 	};
 
 	return (
-		<div>
-			<Controller
-				control={control}
-				name="exterior"
-				render={(innerProps) => (
-					<>
-						<label>What sort of exterior work are you doing? (Multi-select)</label>
-						<MultiSelect
-							{...innerProps}
-							options={SFExteriorWorkOptions}
-							value={exterior}
-							onChange={onChangeExterior}
-							disableSearch
-							hasSelectAll={false}
-							labelledBy="exterior"
-							ClearSelectedIcon={null}
-						/>
-					</>
-				)}
-			/>
-
-			<WizardNav step={step} previous="residential-work" next="permit-requirements" disableNext={!sectionValid} />
-		</div>
+		<WizardStepLayout
+			label="Exterior Work"
+			step={step}
+			previous="residential-work"
+			next="permit-requirements"
+			disableNext={!sectionValid}
+		>
+			<div>
+				<Controller
+					control={control}
+					name="exterior"
+					render={(innerProps) => (
+						<>
+							<label>What sort of exterior work are you doing? (Multi-select)</label>
+							<MultiSelect
+								{...innerProps}
+								options={SFExteriorWorkOptions}
+								value={exterior}
+								onChange={onChangeExterior}
+								disableSearch
+								hasSelectAll={false}
+								labelledBy="exterior"
+								ClearSelectedIcon={null}
+							/>
+						</>
+					)}
+				/>
+			</div>
+		</WizardStepLayout>
 	);
 };

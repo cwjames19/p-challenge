@@ -1,9 +1,0 @@
-@import '../../styles/breakpoints.scss';
-
-.root {
-  padding: 0px 24px;
-
-  @include md {
-    padding: 0 48px;
-  }
-}

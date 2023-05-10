@@ -1,8 +1,9 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { MultiSelect, SelectProps, Option } from 'react-multi-select-component';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { InteriorStepProps, SFInteriorWorkOption } from './InteriorStep.types';
-import { WizardNav } from '../../../Wizard/WizardNav/WizardNav';
+import { WizardStepLayout } from '../../../Wizard/WizardStepLayout';
+import { SFWorkflowInput } from '../../../../api';
 
 export const SFInteriorWorkOptions: SFInteriorWorkOption[] = [
 	{ value: 'new-bathroom', label: 'New bathroom' },
@@ -12,8 +13,8 @@ export const SFInteriorWorkOptions: SFInteriorWorkOption[] = [
 ];
 
 export const InteriorStep: FC<InteriorStepProps> = (props) => {
-	const { step, formVariables } = props;
-	const { watch, control, setValue } = formVariables;
+	const { step } = props;
+	const { watch, control, setValue } = useFormContext<SFWorkflowInput>();
 
 	const interior = watch('interior') ?? [];
 	const sectionValid = interior.length > 0;
@@ -23,28 +24,34 @@ export const InteriorStep: FC<InteriorStepProps> = (props) => {
 	};
 
 	return (
-		<div>
-			<Controller
-				control={control}
-				name="interior"
-				render={(innerProps) => (
-					<>
-						<label>What interior work are you doing? (Multi-select)</label>
-						<MultiSelect
-							{...innerProps}
-							options={SFInteriorWorkOptions}
-							value={interior}
-							onChange={onChangeInterior}
-							disableSearch
-							hasSelectAll={false}
-							labelledBy="interior"
-							ClearSelectedIcon={null}
-						/>
-					</>
-				)}
-			/>
-
-			<WizardNav step={step} previous="residential-work" next="permit-requirements" disableNext={!sectionValid} />
-		</div>
+		<WizardStepLayout
+			label="Interior Work"
+			step={step}
+			previous="residential-work"
+			next="permit-requirements"
+			disableNext={!sectionValid}
+		>
+			<div>
+				<Controller
+					control={control}
+					name="interior"
+					render={(innerProps) => (
+						<>
+							<label>What interior work are you doing? (Multi-select)</label>
+							<MultiSelect
+								{...innerProps}
+								options={SFInteriorWorkOptions}
+								value={interior}
+								onChange={onChangeInterior}
+								disableSearch
+								hasSelectAll={false}
+								labelledBy="interior"
+								ClearSelectedIcon={null}
+							/>
+						</>
+					)}
+				/>
+			</div>
+		</WizardStepLayout>
 	);
 };

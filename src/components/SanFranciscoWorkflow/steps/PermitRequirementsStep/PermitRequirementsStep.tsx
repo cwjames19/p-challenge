@@ -1,16 +1,18 @@
 import { FC, useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { PermitRequirementsStepProps } from './PermitRequirementsStep.types';
 import styles from './PermitRequirementsStep.module.scss';
-import { WizardNav } from '../../../Wizard/WizardNav/WizardNav';
 import { Spinner } from '../../../Spinner';
-import { API } from '../../../../api';
+import { API, SFWorkflowInput } from '../../../../api';
+import { WizardStepLayout } from '../../../Wizard/WizardStepLayout';
 
 export const PermitRequirementsStep: FC<PermitRequirementsStepProps> = (props) => {
-	const { step, formVariables } = props;
-	const { getValues } = formVariables;
+	const { step } = props;
+	const { getValues } = useFormContext<SFWorkflowInput>();
 	const [headline, setHeadline] = useState<string>('');
 	const [points, setPoints] = useState<string[]>([]);
 	const [errors, setErrors] = useState<string[]>([]);
+	const loading = !headline && !errors.length;
 
 	useEffect(() => {
 		let unmounted = false;
@@ -40,39 +42,35 @@ export const PermitRequirementsStep: FC<PermitRequirementsStepProps> = (props) =
 		};
 	}, [headline, getValues]);
 
-	if (errors.length) {
-		return (
-			<div className={styles.errors}>
-				{errors.map((message) => (
-					<ul>
-						<li key={message}>{message}</li>
-					</ul>
-				))}
-			</div>
-		);
-	}
+	const content = errors.length ? (
+		<div className={styles.errors}>
+			{errors.map((message) => (
+				<ul>
+					<li key={message}>{message}</li>
+				</ul>
+			))}
+		</div>
+	) : (
+		<div className={styles.root}>
+			<p className={styles.headline}>{headline}</p>
+			{points.length && (
+				<ul className={styles.points}>
+					{points.map((p) => (
+						<li key={p}>{p}</li>
+					))}
+				</ul>
+			)}
+		</div>
+	);
 
 	return (
-		<>
-			{headline ? (
-				<div className={styles.root}>
-					<p className={styles.headline}>{headline}</p>
-					{points.length && (
-						<ul className={styles.points}>
-							{points.map((p) => (
-								<li key={p}>{p}</li>
-							))}
-						</ul>
-					)}
-					<WizardNav
-						step={step}
-						previous={getValues().residential === 'exterior' ? 'exterior-work' : 'interior-work'}
-						finalStep
-					/>
-				</div>
-			) : (
-				<Spinner />
-			)}
-		</>
+		<WizardStepLayout
+			label="Permit Requirements"
+			step={step}
+			previous={getValues().residential === 'exterior' ? 'exterior-work' : 'interior-work'}
+			finalStep
+		>
+			{loading ? <Spinner /> : content}
+		</WizardStepLayout>
 	);
 };
