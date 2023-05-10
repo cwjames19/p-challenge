@@ -1,0 +1,19 @@
+@import '../../../../styles/components.scss';
+
+.root {
+  height: auto;
+}
+
+.errors {
+  color: red;
+}
+
+.headline {
+  @extend %h3;
+}
+
+.points {
+  & li {
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,26 @@
+@import '../../styles/components.scss';
+
+.root {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 72px;
+}
+
+.h1 {
+  @extend %h1;
+  text-align: center;
+  margin: 48px 0px;
+}
+
+.select {
+  font-size: 12px;
+  margin-bottom: 24px;
+}
+
+.button {
+  @extend %base-button;
+  margin-bottom: 96px;
+}
