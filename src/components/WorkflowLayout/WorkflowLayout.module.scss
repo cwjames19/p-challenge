@@ -1,0 +1,43 @@
+@import '../../styles/breakpoints.scss';
+
+.root {
+  padding: 0px 24px;
+
+  @include md {
+    padding: 0 48px;
+  }
+
+  form {
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input,
+    select,
+    textarea,
+    button,
+    fieldset,
+    legend,
+    datalist,
+    output,
+    option,
+    optgroup {
+      margin-bottom: 16px;
+    }
+  }
+
+}
+
+.title {
+  font-size: 36px;
+  margin-bottom: 72px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    width: 100%;
+    border-bottom: 3px solid black;
+  }
+}

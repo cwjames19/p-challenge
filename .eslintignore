@@ -1,0 +1,12 @@
+**/coverage/**
+**/node_modules/**
+bin/
+**/dist/*
+**/__testfixtures__/**
+**/__tests__/fixtures/**
+**/mocks/**
+docs
+scripts
+build
+lib
+**/*.d.ts

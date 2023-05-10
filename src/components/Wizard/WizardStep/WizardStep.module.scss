@@ -1,0 +1,5 @@
+@import '../../../styles/components.scss';
+
+.h2 {
+  @extend %h2;
+}

@@ -1,0 +1,27 @@
+@import '../../../styles/components.scss';
+
+.stepButtonsContainer {
+  margin: 40px 0px 0px 0px;
+
+  & > div {
+    display: inline-block;
+    width: 80px;
+    height: auto;
+
+    &:first-child {
+      margin-right: 60px;
+    }
+
+    & > button {
+      @extend %base-button;
+      width: 100%;
+    }
+  }
+}
+
+.finishButton {
+  @extend %base-button;
+  margin: 40px 0px 0px 0px;
+  width: 80px;
+  height: auto;
+}
