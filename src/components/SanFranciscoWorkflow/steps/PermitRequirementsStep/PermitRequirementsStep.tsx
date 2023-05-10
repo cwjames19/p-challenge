@@ -18,6 +18,8 @@ export const PermitRequirementsStep: FC<PermitRequirementsStepProps> = (props) =
 		let unmounted = false;
 
 		const asyncAction = async () => {
+			// is form is not valid, send user back to beginning without losing form state
+
 			const formData = getValues();
 			const response = await API.submitSFWorkflow(formData);
 

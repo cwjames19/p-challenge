@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, createContext, useCallback, useEffect, useContext, useMemo, useState } from 'react';
-import { WizardContextType, WizardProviderProps } from './WizardProvider.types';
 import { useNavigate } from 'react-router-dom';
+import { WizardContextType, WizardProviderProps } from './WizardProvider.types';
 
 const WizardContext = createContext<WizardContextType>(null!);
 
@@ -11,9 +11,10 @@ export const WizardProvider: FC<PropsWithChildren<WizardProviderProps>> = (props
 		children,
 	} = props;
 
-	const [steps, setSteps] = useState<string[]>(propSteps);
+	const [steps] = useState<string[]>(propSteps);
 	const [currentStep, setCurrentStep] = useState<string>(propCurrentStep);
 
+	// navigate to corresponding url when value of step changes
 	useEffect(() => {
 		const path = `/${[
 			...window.location.pathname
